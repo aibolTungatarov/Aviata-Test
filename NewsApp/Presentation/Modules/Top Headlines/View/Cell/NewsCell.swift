@@ -20,8 +20,11 @@ class NewsCell: UICollectionViewCell {
     // MARK: - Views
     var thumbnailImageView: UIImageView = {
         let view = UIImageView()
-        view.image = Asset.placeholderImage.image
+        let image = Asset.placeholderImage.image
+        view.image = image
         view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
+
 //        view.contentMode = .scaleAspectFill
         return view
     }()
@@ -63,18 +66,16 @@ class NewsCell: UICollectionViewCell {
 extension NewsCell {
     
     private func configureViews() {
-        backgroundColor = .red
-        
-        addSubview(mainView)
-        [titleLabel, thumbnailImageView, dateLabel].forEach { mainView.addSubview($0) }
+//        addSubview(mainView)
+        [titleLabel, thumbnailImageView, dateLabel].forEach { contentView.addSubview($0) }
         configureConstraints()
     }
     
     private func configureConstraints() {
-        mainView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-            make.width.equalTo((UIScreen.main.bounds.width - 100 - 25) / 2)
-        }
+//        mainView.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//            make.width.equalTo((UIScreen.main.bounds.width - 100 - 25) / 2)
+//        }
         
         thumbnailImageView.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
@@ -88,6 +89,7 @@ extension NewsCell {
         titleLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(thumbnailImageView)
             make.top.equalTo(dateLabel.snp.bottom).offset(15)
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -102,4 +104,12 @@ extension NewsCell {
         let date = ISOString.toISODate()?.toFormat("dd.MM.yyyy")
         return date ?? ""
     }
+    
+//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+//        contentView.snp.makeConstraints { (make) in
+//            make.width.equalTo(bounds.size.width)
+//        }
+////        width.constant = bounds.size.width
+//        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
+//    }
 }

@@ -10,23 +10,23 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol MainNewsViewModelInput {
+protocol TopHeadlinesViewModelInput {
     func viewDidLoad()
     func goToDetail(with article: Article?)
 }
 
-protocol MainNewsViewModelOutput {
+protocol TopHeadlinesViewModelOutput {
     var router: RouterProtocol { get }
     var disposeBag: DisposeBag { get }
     var isLoading: BehaviorRelay<Bool> { get }
     var error: BehaviorRelay<Error> { get }
-    var useCase: GetEveryNewsUseCaseProtocol { get set }
+    var useCase: GetTopHeadlinesUseCaseProtocol { get set }
     var news: PublishSubject<News> { get set }
 }
 
-protocol MainNewsViewModelProtocol: MainNewsViewModelOutput, MainNewsViewModelInput {}
+protocol TopHeadlinesViewModelProtocol: TopHeadlinesViewModelOutput, TopHeadlinesViewModelInput {}
 
-final class MainNewsViewModel: MainNewsViewModelProtocol {
+final class TopHeadlinesViewModel: TopHeadlinesViewModelProtocol {
     
     // MARK: - OUTPUT
     var router: RouterProtocol
@@ -34,10 +34,10 @@ final class MainNewsViewModel: MainNewsViewModelProtocol {
     var isLoading = BehaviorRelay<Bool>(value: false)
     var news = PublishSubject<News>()
     var error = BehaviorRelay<Error>(value: NSError(domain: "", code: 0))
-    var useCase: GetEveryNewsUseCaseProtocol
+    var useCase: GetTopHeadlinesUseCaseProtocol
     
     @discardableResult
-    init(router: RouterProtocol, useCase: GetEveryNewsUseCaseProtocol) {
+    init(router: RouterProtocol, useCase: GetTopHeadlinesUseCaseProtocol) {
         self.useCase = useCase
         self.router = router
     }
@@ -48,13 +48,14 @@ final class MainNewsViewModel: MainNewsViewModelProtocol {
 }
 
 // MARK: - INPUT. View event methods
-extension MainNewsViewModel {
+extension TopHeadlinesViewModel {
     
     func viewDidLoad() {
         getEverything()
+        repeatRequest()
     }
     
-    func getEverything() {
+    @objc func getEverything() {
         useCase.execute(query: "Apple")
             .subscribe(onNext: { (news) in
                 self.news.onNext(news)
@@ -65,8 +66,12 @@ extension MainNewsViewModel {
         ).disposed(by: disposeBag)
     }
     
+    func repeatRequest() {
+        _ = Timer.scheduledTimer(timeInterval: 5, target: self,selector: Selector(("getEverything")), userInfo: nil, repeats: true)
+    }
+    
     func goToDetail(with article: Article?) {
-        let context = MainNewsRouter.RouteType.detail(article: article)
+        let context = TopHeadlinesNewsRouter.RouteType.detail(article: article)
         router.enqueueRoute(with: context)
     }
 }

@@ -11,6 +11,6 @@ import RxSwift
 import RxAlamofire
 
 public protocol NewsRepositoryProtocol {
-    func getTopHeadlines() -> Observable<News>
+    func getTopHeadlines(query: String) -> Observable<News>
     func getEverything(query: String) -> Observable<News>
 }

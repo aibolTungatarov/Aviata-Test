@@ -17,12 +17,16 @@ class NewsDetailViewController: UIViewController {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     private var viewModel: NewsDetailViewModelProtocol
+    private var isFavorite = false {
+        didSet {
+            favoritesButton.setImage(self.isFavorite ? Asset.starFilledImage.image : Asset.starImage.image, for: .normal)
+        }
+    }
     
     // MARK: - Views
     private var thumbnailImageView: UIImageView = {
         let view = UIImageView()
         view.image = Asset.placeholderImage.image
-        view.layer.cornerRadius = 50
 //        view.contentMode = .scaleAspectFill
         return view
     }()
@@ -30,6 +34,12 @@ class NewsDetailViewController: UIViewController {
     private var backButton: UIButton = {
         let button = UIButton()
         button.setImage(Asset.backImage.image, for: .normal)
+        return button
+    }()
+    
+    private var favoritesButton: UIButton = {
+        let button = UIButton()
+        button.setImage(Asset.starImage.image, for: .normal)
         return button
     }()
     
@@ -96,7 +106,7 @@ extension NewsDetailViewController {
     func configureViews() {
         view.backgroundColor = .white
         separatorView.backgroundColor = .hint
-        [thumbnailImageView, titleLabel, sourceLabel, dateLabel, contentLabel, authorLabel, separatorView, backButton].forEach { view.addSubview($0) }
+        [thumbnailImageView, titleLabel, sourceLabel, dateLabel, contentLabel, authorLabel, separatorView, backButton, favoritesButton].forEach { view.addSubview($0) }
         configureConstraints()
     }
     
@@ -130,11 +140,16 @@ extension NewsDetailViewController {
         contentLabel.snp.makeConstraints { (make) in
             make.top.equalTo(separatorView.snp.bottom).offset(15)
             make.left.right.equalTo(titleLabel)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+//            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
         backButton.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.left.equalToSuperview().offset(20)
+            make.width.height.equalTo(30)
+        }
+        favoritesButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.right.equalToSuperview().offset(-20)
             make.width.height.equalTo(30)
         }
     }
@@ -147,12 +162,16 @@ extension NewsDetailViewController {
         backButton.rx.tap.bind {
             viewModel.goBack()
         }.disposed(by: disposeBag)
+        
+        favoritesButton.rx.tap.bind {
+            self.isFavorite = !self.isFavorite
+        }.disposed(by: disposeBag)
     }
     
     func configure(with article: Article?) {
         let url = URL(string: article?.urlToImage ?? "")
         thumbnailImageView.kf.setImage(with: url)
-        sourceLabel.text = article?.source?.name
+        sourceLabel.text = article?.source?.name ?? "Unknown"
         dateLabel.text = convertISODateToString(with: article?.publishedAt ?? "")
         titleLabel.text = article?.title
         contentLabel.text = article?.content

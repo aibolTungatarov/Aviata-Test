@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension MainViewController: UICollectionViewDataSource {
+extension TopHeadlinesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return news?.articles.count ?? 0
@@ -26,20 +26,19 @@ extension MainViewController: UICollectionViewDataSource {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
                let headerView: NewsHeaderView = collectionView.dequeueReusableHeaderFooterView(kind, indexPath: indexPath)
-               headerView.backgroundColor = UIColor.blue
                return headerView
         default:  fatalError("Unexpected element kind")
         }
     }
 }
 
-extension MainViewController: UICollectionViewDelegate {
+extension TopHeadlinesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.goToDetail(with: news?.articles[indexPath.row])
     }
 }
 
-extension MainViewController: UICollectionViewDelegateFlowLayout {
+extension TopHeadlinesViewController: UICollectionViewDelegateFlowLayout {
 
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,
@@ -54,6 +53,12 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 100)
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+
+        // Use this view to calculate the optimal size based on the collection view's width
+        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height),
+                                                  withHorizontalFittingPriority: .required, // Width is fixed
+                                                  verticalFittingPriority: .fittingSizeLevel) // Height can be as large as needed
     }
 }

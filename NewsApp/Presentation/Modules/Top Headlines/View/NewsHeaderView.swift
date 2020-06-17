@@ -16,11 +16,12 @@ class NewsHeaderView: UICollectionReusableView {
         view.image = Asset.placeholderImage.image
         view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
         return view
     }()
     
     var titleLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel.bodyRegular(20, lines: 0)
         label.text = "Beijing marketplace infections trigger 'wartime emergency mode' - ABC News"
         label.font = .systemFont(ofSize: 20)
         return label
@@ -54,7 +55,6 @@ extension NewsHeaderView {
 extension NewsHeaderView {
     
     private func configureViews() {
-        backgroundColor = .yellow
         [titleLabel, dateLabel, thumbnailImageView].forEach { addSubview($0) }
         configureConstraints()
     }
@@ -71,6 +71,7 @@ extension NewsHeaderView {
         titleLabel.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.top.equalTo(dateLabel.snp.bottom).offset(15)
+            make.bottom.equalToSuperview()
         }
     }
 }

@@ -52,21 +52,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func confugureInitialViewController() {
-        let headlineItem = UITabBarItem()
-        headlineItem.title = "Top Headlines"
-        headlineItem.image = Asset.homeImage.image
-        let mainVC = UINavigationController(rootViewController: MainNewsContainer.shared.controller())
-        mainVC.tabBarItem = headlineItem
-        
-        let savedItem = UITabBarItem()
-        savedItem.title = "Saved"
-        savedItem.image = Asset.bookmarkImage.image
-        let savedVC = UINavigationController(rootViewController: SavedArticlesContainer.shared.controller())
-        savedVC.tabBarItem = savedItem
-        
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [mainVC, savedVC]
+//        let headlineItem = UITabBarItem()
+//        headlineItem.title = "Top Headlines"
+//        headlineItem.image = Asset.homeImage.image
+//        let mainVC = UINavigationController(rootViewController: MainNewsContainer.shared.controller())
+//        mainVC.tabBarItem = headlineItem
+//
+//        let savedItem = UITabBarItem()
+//        savedItem.title = "Saved"
+//        savedItem.image = Asset.bookmarkImage.image
+//        let savedVC = UINavigationController(rootViewController: SavedArticlesContainer.shared.controller())
+//        savedVC.tabBarItem = savedItem
+//
+//        let tabBarController = UITabBarController()
+//        tabBarController.viewControllers = [mainVC, savedVC]
+//        window?.rootViewController = tabBarController
+        let tabBarController = TabBarViewController()
         window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
     }
 
 

@@ -1,22 +1,22 @@
 //
-//  NewsDetailRouter.swift
+//  MainNewsRouter.swift
 //  NewsApp
 //
-//  Created by Aibol Tungatarov on 6/15/20.
+//  Created by Aibol Tungatarov on 6/14/20.
 //  Copyright © 2020 Aibol Tungatarov. All rights reserved.
 //
 
 import UIKit
 
-class NewsDetailRouter: RouterProtocol {
+class TopHeadlinesNewsRouter: RouterProtocol {
     
     // MARK: - Enums
     enum PresentationContext {
-        case `default`(_ article: Article?)
+        case `default`
     }
     
     enum RouteType {
-        case subCategory(categoryString: String)
+        case detail(article: Article?)
     }
     
     // MARK: - Properties
@@ -37,8 +37,8 @@ class NewsDetailRouter: RouterProtocol {
         baseViewController = baseVC
 
         switch context {
-        case .default(let article):
-            let viewController = NewsDetailContainer.shared.controller(article)
+        case .default:
+            let viewController = TopHeadlinesContainer.shared.controller()
             viewController.modalPresentationStyle = .fullScreen
             DispatchQueue.main.async {
                 navigationController.pushViewController(viewController, animated: animated)
@@ -46,18 +46,26 @@ class NewsDetailRouter: RouterProtocol {
         }
     }
     
-    func enqueueRoute(with context: Any?, animated: Bool) { }
-    
-    func dismiss(with context: Any?, animated: Bool) { }
-    
-    func dismiss(animated: Bool) {
-        guard let navigationController = baseViewController?.navigationController else {
-            assertionFailure("Navigation controller is not set")
+    func enqueueRoute(with context: Any?, animated: Bool) {
+        guard let routeType = context as? RouteType else {
+            assertionFailure("The route type mismatch")
             return
         }
         
-        DispatchQueue.main.async {
-            navigationController.popViewController(animated: animated)
+        guard let baseVC = baseViewController else {
+            assertionFailure("baseViewController is not set")
+            return
+        }
+        
+        switch routeType {
+        case .detail(let article):
+            let router = NewsDetailRouter()
+            let context = NewsDetailRouter.PresentationContext.default(article)
+            router.present(on: baseVC, animated: animated, context: context)
         }
     }
+    
+    func dismiss(with context: Any?, animated: Bool) { }
+    
+    func dismiss(animated: Bool) { }
 }

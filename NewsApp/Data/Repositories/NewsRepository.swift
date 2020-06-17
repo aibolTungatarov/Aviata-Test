@@ -17,11 +17,12 @@ public class NewsRepository: NewsRepositoryProtocol {
     public init() { }
     
     // MARK: - Methods
-    public func getTopHeadlines() -> Observable<News> {
+    public func getTopHeadlines(query: String) -> Observable<News> {
         var headers: HTTPHeaders = [String: String]()
+        let params = ["q": query]
         let apiKey = Constants.apiKey
         headers["Authorization"] = "Bearer \(apiKey)"
-        return NetworkManager.shared.request(URL.topHeadlines, method: .get, headers: headers)
+        return NetworkManager.shared.request(URL.topHeadlines, method: .get, headers: headers, parameters: params)
             .debug()
             .flatMap { response -> Observable<JSON> in
                  switch response.result {

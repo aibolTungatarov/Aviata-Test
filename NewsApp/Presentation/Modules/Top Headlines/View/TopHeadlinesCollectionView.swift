@@ -8,13 +8,13 @@
 
 import UIKit
 
-class MainCollectionView: UICollectionView {
+class TopHeadlinesCollectionView: UICollectionView {
     
     // MARK: - Inits
     init(delegate: (UICollectionViewDataSource & UICollectionViewDelegate)?) {
-        let layout = UICollectionViewFlowLayout()
+        let layout = TopAlignedCollectionViewFlowLayout()
         super.init(frame: .zero, collectionViewLayout: layout)
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.size.width, height: 10)
         self.delegate = delegate
         self.dataSource = delegate
         backgroundColor = .white

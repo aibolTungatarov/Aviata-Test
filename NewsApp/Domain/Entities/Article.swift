@@ -8,8 +8,8 @@
 
 import Foundation
 
-public struct Article {
-
+public struct Article: Equatable {
+    
     public var source: Source?
     public var author: String?
     public var title: String?
@@ -37,5 +37,15 @@ public struct Article {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
         self.content = content
+    }
+    
+    public static func == (lhs: Article, rhs: Article) -> Bool {
+        return (lhs.author == rhs.author) &&
+            (lhs.title == rhs.title) &&
+            (lhs.description == rhs.description) &&
+            (lhs.url == rhs.url) &&
+            (lhs.urlToImage == rhs.urlToImage) &&
+            (lhs.publishedAt == rhs.publishedAt) &&
+            (lhs.content == rhs.content)
     }
 }
