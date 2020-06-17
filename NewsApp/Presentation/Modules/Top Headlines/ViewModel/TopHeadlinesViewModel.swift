@@ -52,7 +52,7 @@ extension TopHeadlinesViewModel {
     
     func viewDidLoad() {
         getEverything()
-        repeatRequest()
+//        repeatRequest()
     }
     
     @objc func getEverything() {

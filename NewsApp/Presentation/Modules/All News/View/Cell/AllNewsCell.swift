@@ -16,34 +16,15 @@ class AllNewsCell: UITableViewCell {
     var thumbnailImageView: UIImageView = {
         let view = UIImageView()
         view.image = Asset.placeholderImage.image
-        view.layer.cornerRadius = 50
 //        view.contentMode = .scaleAspectFill
         return view
     }()
     
-    var mainView = UIView()
-    
     var titleLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel.bodyBold(24, lines: 0)
+        label.textColor = .white
         label.text = "Beijing marketplace infections trigger 'wartime emergency mode' - ABC News"
-        label.font = .systemFont(ofSize: 20)
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.text = "27.02.2020"
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    var sourceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.text = "Youtube"
-        label.numberOfLines = 1
+        label.textAlignment = .center
         return label
     }()
     
@@ -59,43 +40,35 @@ class AllNewsCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0))
+    }
 }
 
 // MARK: - UI
-extension SavedArticlesCell {
+extension AllNewsCell {
     func configureViews() {
         selectionStyle = .none
         backgroundColor = .white
         
-        [sourceLabel, titleLabel, thumbnailImageView, dateLabel].forEach { contentView.addSubview($0) }
+        [thumbnailImageView, titleLabel].forEach { contentView.addSubview($0) }
         configureConstraints()
     }
 
     func configureConstraints() {
-        sourceLabel.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview()
-        }
-        
         titleLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview()
-            make.top.equalTo(sourceLabel.snp.bottom).offset(10)
-            make.right.equalTo(thumbnailImageView.snp.left).offset(-10)
-        }
-        
-        dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.bottom.equalToSuperview()
+//            make.centerY.centerX.equalToSuperview()
+            make.left.equalTo(thumbnailImageView).offset(25)
+            make.right.equalTo(thumbnailImageView).offset(-25)
+            make.top.equalTo(thumbnailImageView).offset(50)
+            make.bottom.equalTo(thumbnailImageView).offset(-50)
         }
         
         thumbnailImageView.snp.makeConstraints { (make) in
-            make.right.centerY.equalToSuperview()
-            make.width.equalTo(UIScreen.main.bounds.width / 3)
-            make.height.equalTo(thumbnailImageView.snp.width).dividedBy(1.3)
+            make.edges.equalToSuperview()
         }
-    }
-    
-    func convertISODateToString(with ISOString: String) -> String {
-        let date = ISOString.toISODate()?.toFormat("dd.MM.yyyy")
-        return date ?? ""
     }
 }

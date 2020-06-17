@@ -59,8 +59,8 @@ extension AllNewsViewController {
     
     func configureConstraints() {
         tableView.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(50)
-            make.right.equalToSuperview().offset(-50)
+            make.left.equalToSuperview().offset(25)
+            make.right.equalToSuperview().offset(-25)
             make.top.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }

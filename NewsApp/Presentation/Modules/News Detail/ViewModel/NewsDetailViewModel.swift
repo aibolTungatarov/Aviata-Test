@@ -13,6 +13,7 @@ import RxCocoa
 protocol NewsDetailViewModelInput {
     func viewDidLoad()
     func goBack()
+//    func changeCoreData(_ isFav: Bool)
 }
 
 protocol NewsDetailViewModelOutput {
@@ -30,6 +31,7 @@ final class NewsDetailViewModel: NewsDetailViewModelProtocol {
     let disposeBag = DisposeBag()
     var isLoading = BehaviorRelay<Bool>(value: false)
     var error = BehaviorRelay<Error>(value: NSError(domain: "", code: 0))
+    let context = AppDelegate.viewContext
     
     @discardableResult
     init(router: RouterProtocol) {

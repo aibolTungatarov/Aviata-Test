@@ -98,4 +98,12 @@ extension SavedArticlesCell {
         let date = ISOString.toISODate()?.toFormat("dd.MM.yyyy")
         return date ?? ""
     }
+    
+    func configure(with article: ArticleCoreData) {
+        self.titleLabel.text = article.title
+        self.sourceLabel.text = article.sourceName
+        self.dateLabel.text = article.date
+        let url = URL(string: article.urlToImage ?? "")
+        self.thumbnailImageView.kf.setImage(with: url)
+    }
 }

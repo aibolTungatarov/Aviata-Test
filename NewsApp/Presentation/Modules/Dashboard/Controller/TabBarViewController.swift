@@ -41,7 +41,7 @@ class TabBarViewController: UITabBarController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         tabBar.tintColor = .appOrange
-        tabBar.unselectedItemTintColor = .clear
+        tabBar.unselectedItemTintColor = .black
         tabBar.isTranslucent = false
         tabBar.backgroundImage = UIImage()
         tabBar.clipsToBounds = true
@@ -70,9 +70,10 @@ extension TabBarViewController {
 
 extension TabBarViewController {
     func setViewControllers() {
-        let topHeadlinesVC = TopHeadlinesContainer.shared.controller()
-        let everythingVC = .shared.controller()
-        viewControllers = [topHeadlinesVC, everythingVC]
+        let topHeadlinesVC = UINavigationController(rootViewController: TopHeadlinesContainer.shared.controller())
+        let everythingVC = UINavigationController(rootViewController: AllNewsContainer.shared.controller())
+        let savedVC = UINavigationController(rootViewController: SavedArticlesContainer.shared.controller())
+        viewControllers = [topHeadlinesVC, everythingVC, savedVC]
     }
 }
 

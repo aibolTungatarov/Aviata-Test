@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import SwiftDate
+import CoreData
 
 class NewsDetailViewController: UIViewController {
     
@@ -22,6 +23,9 @@ class NewsDetailViewController: UIViewController {
             favoritesButton.setImage(self.isFavorite ? Asset.starFilledImage.image : Asset.starImage.image, for: .normal)
         }
     }
+    private let article: Article?
+    private let context = AppDelegate.viewContext
+    private var articlesCoreData = [ArticleCoreData]()
     
     // MARK: - Views
     private var thumbnailImageView: UIImageView = {
@@ -88,6 +92,7 @@ class NewsDetailViewController: UIViewController {
     // MARK: - Inits
     init(viewModel: NewsDetailViewModelProtocol, article: Article?) {
         self.viewModel = viewModel
+        self.article = article
         super.init(nibName: nil, bundle: nil)
         
         self.viewModel.router.baseViewController = self
@@ -165,6 +170,7 @@ extension NewsDetailViewController {
         
         favoritesButton.rx.tap.bind {
             self.isFavorite = !self.isFavorite
+            self.changeCoreData(self.isFavorite)
         }.disposed(by: disposeBag)
     }
     
@@ -176,11 +182,93 @@ extension NewsDetailViewController {
         titleLabel.text = article?.title
         contentLabel.text = article?.content
         authorLabel.text = "author: " + (article?.author ?? "Unknown")
+        checkIsFav()
     }
     
     func convertISODateToString(with ISOString: String) -> String {
         let date = ISOString.toISODate()?.toFormat("dd.MM.yyyy")
         return date ?? ""
+    }
+    
+    func changeCoreData(_ isFav: Bool) {
+        if isFav {
+            saveData()
+        } else {
+            removeData()
+        }
+    }
+    
+    func saveData() {
+        let article = makeArticleCoreData()
+        self.saveContext()
+        self.articlesCoreData.append(article)
+    }
+    
+    func removeData() {
+        let article = makeArticleCoreData()
+        self.context.delete(article)
+        articlesCoreData.removeAll { return $0 == article }
+        saveContext()
+    }
+    
+    func makeArticleCoreData() -> ArticleCoreData {
+        let article = ArticleCoreData(context: self.context)
+        if let articleData = self.article {
+            article.author = articleData.author
+            article.content = articleData.content
+            article.date = articleData.publishedAt
+            article.desc = articleData.description
+            article.sourceId = Int16(articleData.source?.id ?? 0)
+            article.sourceName = articleData.source?.name
+            article.urlToImage = articleData.urlToImage
+            article.title = articleData.title
+        }
+        return article
+    }
+    
+    func checkIsFav() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleCoreData")
+        let sourceNamePredicate = NSPredicate(format: "sourceName == %@", article?.source?.name ?? "")
+        let sourceIdPredicate = NSPredicate(format: "sourceId == %@", Int16(article?.source?.id ?? 0))
+        let authorPredicate = NSPredicate(format: "author == %@", article?.author ?? "")
+        let titlePredicate = NSPredicate(format: "title == %@", article?.title ?? "")
+        let descriptionPredicate = NSPredicate(format: "desc == %@", article?.description ?? "")
+        let urlToImagePredicate = NSPredicate(format: "urlToImage == %@", article?.urlToImage ?? "")
+        let datePredicate = NSPredicate(format: "date == %@", article?.publishedAt ?? "")
+        let contentPredicate = NSPredicate(format: "content == %@", article?.content ?? "")
+        let predicateCompound = NSCompoundPredicate.init(type: .and, subpredicates: [sourceNamePredicate,sourceIdPredicate, authorPredicate, titlePredicate, descriptionPredicate, urlToImagePredicate, datePredicate, contentPredicate])
+
+        request.predicate = predicateCompound
+        request.fetchLimit = 1
+
+        do {
+//            let app = UIApplication.shared.delegate as! AppDelegate
+//            let context = app.managedObjectContext
+            let count = try context.count(for: request)
+            if(count == 0) {
+                // no matching object
+                print("no present")
+                self.isFavorite = false
+            }
+            else{
+                // at least one matching object exists
+                print("one matching item found")
+                self.isFavorite = true
+                let article = makeArticleCoreData()
+                self.articlesCoreData.append(article)
+            }
+        }
+        catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
+    func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            
+        }
     }
     
 }

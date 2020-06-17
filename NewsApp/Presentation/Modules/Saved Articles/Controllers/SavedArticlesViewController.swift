@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import CoreData
 
 class SavedArticlesViewController: UIViewController {
     
@@ -17,6 +18,8 @@ class SavedArticlesViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private lazy var tableView = SavedArticlesTableView(delegate: self)
     private var viewModel: SavedArticlesViewModelProtocol
+    private lazy var refreshControl = UIRefreshControl()
+    var articles = [ArticleCoreData]()
     
     // MARK: - Views
     
@@ -53,6 +56,9 @@ extension SavedArticlesViewController {
     
     func configureViews() {
         view.backgroundColor = .white
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         [tableView].forEach { view.addSubview($0) }
         configureConstraints()
     }
@@ -75,10 +81,14 @@ extension SavedArticlesViewController {
 extension SavedArticlesViewController {
     
     private func bind(to viewModel: SavedArticlesViewModelProtocol) {
-//        viewModel.news.bind { news in
-//             self.news = news
-//             self.tableView.reloadData()
-//         }.disposed(by: disposeBag)
+        viewModel.articles.bind { articles in
+             self.articles = articles
+             self.tableView.reloadData()
+         }.disposed(by: disposeBag)
     }
     
+    @objc func refresh(_ sender: AnyObject) {
+        refreshControl.endRefreshing()
+        tableView.reloadData()
+    }
 }
