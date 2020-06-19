@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class AllNewsCell: UITableViewCell {
+class TopHeadlinesCell: UITableViewCell {
 
     // MARK: - Views
     var thumbnailImageView: UIImageView = {
@@ -49,7 +49,7 @@ class AllNewsCell: UITableViewCell {
 }
 
 // MARK: - UI
-extension AllNewsCell {
+extension TopHeadlinesCell {
     func configureViews() {
         selectionStyle = .none
         backgroundColor = .white

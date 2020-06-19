@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension TopHeadlinesViewController: UICollectionViewDataSource {
+extension AllNewsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return news?.articles.count ?? 0
@@ -32,13 +32,13 @@ extension TopHeadlinesViewController: UICollectionViewDataSource {
     }
 }
 
-extension TopHeadlinesViewController: UICollectionViewDelegate {
+extension AllNewsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.goToDetail(with: news?.articles[indexPath.row])
     }
 }
 
-extension TopHeadlinesViewController: UICollectionViewDelegateFlowLayout {
+extension AllNewsViewController: UICollectionViewDelegateFlowLayout {
 
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,

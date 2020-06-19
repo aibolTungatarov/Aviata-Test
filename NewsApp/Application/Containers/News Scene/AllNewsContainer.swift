@@ -17,11 +17,12 @@ final class AllNewsContainer {
         
 //        container.register(CardsUseCaseProtocol.self) { _ in return CardsUseCase(repository: CardRepository()) }
 //        container.register(CardsByTagUseCase.self) { _ in return CardsByTagUseCase(repository: CardRepository()) }
-//        container.register(GetEveryNewsUseCaseProtocol.self) { _ in return GetEveryNewsUseCase(repository: NewsRepository()) }
+        container.register(GetEveryNewsUseCaseProtocol.self) { _ in return GetEveryNewsUseCase(repository: NewsRepository()) }
         container.register(AllNewsRouter.self) { _ in return AllNewsRouter() }
         container.register(AllNewsViewModelProtocol.self) { resolver in
             return AllNewsViewModel(
-                router: resolver.resolve(AllNewsRouter.self)!
+                router: resolver.resolve(AllNewsRouter.self)!,
+                useCase: resolver.resolve(GetEveryNewsUseCaseProtocol.self)!
             )
         }
         container.register(AllNewsViewController.self) { resolver in

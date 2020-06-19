@@ -11,12 +11,12 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class TopHeadlinesViewController: UIViewController {
+class AllNewsViewController: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private lazy var collectionView = TopHeadlinesCollectionView(delegate: self)
-    private(set) var viewModel: TopHeadlinesViewModelProtocol
+    private lazy var collectionView = AllNewsCollectionView(delegate: self)
+    private(set) var viewModel: AllNewsViewModelProtocol
     private(set) var news: News?
     
     // MARK: - Views
@@ -36,7 +36,7 @@ class TopHeadlinesViewController: UIViewController {
     }
     
     // MARK: - Inits
-    init(viewModel: TopHeadlinesViewModelProtocol) {
+    init(viewModel: AllNewsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
@@ -50,7 +50,7 @@ class TopHeadlinesViewController: UIViewController {
 }
 
 // MARK: - UI
-extension TopHeadlinesViewController {
+extension AllNewsViewController {
     
     func configureViews() {
         view.backgroundColor = .white
@@ -71,14 +71,14 @@ extension TopHeadlinesViewController {
     
     func setupNavBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Top News"
+        title = "All News"
     }
 }
 
 // MARK: - Methods
-extension TopHeadlinesViewController {
+extension AllNewsViewController {
     
-    private func bind(to viewModel: TopHeadlinesViewModelProtocol) {
+    private func bind(to viewModel: AllNewsViewModelProtocol) {
         viewModel.news.bind { newsList in
 //            var insertList = [Int]()
 //            var deleteList = [Int]()

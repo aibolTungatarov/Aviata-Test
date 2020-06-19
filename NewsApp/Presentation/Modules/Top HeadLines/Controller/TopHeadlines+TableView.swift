@@ -8,14 +8,14 @@
 
 import UIKit
 
-extension AllNewsViewController: UITableViewDataSource {
+extension TopHeadlinesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: AllNewsCell = tableView.dequeueReusableCell(for: indexPath)
+        let cell: TopHeadlinesCell = tableView.dequeueReusableCell(for: indexPath)
         return cell
     }
     
@@ -32,7 +32,7 @@ extension AllNewsViewController: UITableViewDataSource {
     }
 }
 
-extension AllNewsViewController: UITableViewDelegate {
+extension TopHeadlinesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

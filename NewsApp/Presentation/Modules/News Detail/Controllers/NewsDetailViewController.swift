@@ -25,7 +25,8 @@ class NewsDetailViewController: UIViewController {
     }
     private let article: Article?
     private let context = AppDelegate.viewContext
-    private var articlesCoreData = [ArticleCoreData]()
+//    private var articlesCoreData = [ArticleCoreData]()
+    private var articleCoreData: ArticleCoreData?
     
     // MARK: - Views
     private var thumbnailImageView: UIImageView = {
@@ -200,14 +201,15 @@ extension NewsDetailViewController {
     
     func saveData() {
         let article = makeArticleCoreData()
+        self.articleCoreData = article
         self.saveContext()
-        self.articlesCoreData.append(article)
     }
     
     func removeData() {
         let article = makeArticleCoreData()
         self.context.delete(article)
-        articlesCoreData.removeAll { return $0 == article }
+//        articlesCoreData.removeAll { return $0 == article }
+        self.articleCoreData = nil
         saveContext()
     }
     
@@ -255,7 +257,7 @@ extension NewsDetailViewController {
                 print("one matching item found")
                 self.isFavorite = true
                 let article = makeArticleCoreData()
-                self.articlesCoreData.append(article)
+                self.articleCoreData = article
             }
         }
         catch let error as NSError {

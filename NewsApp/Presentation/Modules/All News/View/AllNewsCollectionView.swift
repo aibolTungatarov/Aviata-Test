@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopHeadlinesCollectionView: UICollectionView {
+class AllNewsCollectionView: UICollectionView {
     
     // MARK: - Inits
     init(delegate: (UICollectionViewDataSource & UICollectionViewDelegate)?) {

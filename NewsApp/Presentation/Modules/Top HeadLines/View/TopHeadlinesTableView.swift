@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AllNewsTableView: UITableView {
+class TopHeadlinesTableView: UITableView {
     
     // MARK: - Properties
     
@@ -25,7 +25,7 @@ class AllNewsTableView: UITableView {
         contentInset = .zero
         scrollIndicatorInsets = .zero
         separatorStyle = .none
-        register(cellClass: AllNewsCell.self)
+        register(cellClass: TopHeadlinesCell.self)
     }
     
     // MARK: - Inits

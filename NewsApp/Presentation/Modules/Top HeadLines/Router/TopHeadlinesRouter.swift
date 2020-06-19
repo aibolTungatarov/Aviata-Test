@@ -1,14 +1,14 @@
 //
-//  MainNewsRouter.swift
+//  AllNewsRouter.swift
 //  NewsApp
 //
-//  Created by Aibol Tungatarov on 6/14/20.
+//  Created by Aibol Tungatarov on 6/17/20.
 //  Copyright © 2020 Aibol Tungatarov. All rights reserved.
 //
 
 import UIKit
 
-class TopHeadlinesNewsRouter: RouterProtocol {
+class TopHeadlinesRouter: RouterProtocol {
     
     // MARK: - Enums
     enum PresentationContext {
@@ -16,7 +16,7 @@ class TopHeadlinesNewsRouter: RouterProtocol {
     }
     
     enum RouteType {
-        case detail(article: Article?)
+        case subCategory(categoryString: String)
     }
     
     // MARK: - Properties
@@ -46,24 +46,7 @@ class TopHeadlinesNewsRouter: RouterProtocol {
         }
     }
     
-    func enqueueRoute(with context: Any?, animated: Bool) {
-        guard let routeType = context as? RouteType else {
-            assertionFailure("The route type mismatch")
-            return
-        }
-        
-        guard let baseVC = baseViewController else {
-            assertionFailure("baseViewController is not set")
-            return
-        }
-        
-        switch routeType {
-        case .detail(let article):
-            let router = NewsDetailRouter()
-            let context = NewsDetailRouter.PresentationContext.default(article)
-            router.present(on: baseVC, animated: animated, context: context)
-        }
-    }
+    func enqueueRoute(with context: Any?, animated: Bool) { }
     
     func dismiss(with context: Any?, animated: Bool) { }
     

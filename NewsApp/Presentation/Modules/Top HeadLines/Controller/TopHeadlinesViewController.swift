@@ -11,12 +11,12 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class AllNewsViewController: UIViewController {
+class TopHeadlinesViewController: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private lazy var tableView = AllNewsTableView(delegate: self)
-    private var viewModel: AllNewsViewModelProtocol
+    private lazy var tableView = TopHeadlinesTableView(delegate: self)
+    private var viewModel: TopHeadlinesViewModelProtocol
     
     // MARK: - Views
     
@@ -35,7 +35,7 @@ class AllNewsViewController: UIViewController {
     }
     
     // MARK: - Inits
-    init(viewModel: AllNewsViewModelProtocol) {
+    init(viewModel: TopHeadlinesViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
@@ -49,7 +49,7 @@ class AllNewsViewController: UIViewController {
 }
 
 // MARK: - UI
-extension AllNewsViewController {
+extension TopHeadlinesViewController {
     
     func configureViews() {
         view.backgroundColor = .white
@@ -67,14 +67,14 @@ extension AllNewsViewController {
     
     func setupNavBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Saved Articles"
+        title = "Top Headlines"
     }
 }
 
 // MARK: - Methods
-extension AllNewsViewController {
+extension TopHeadlinesViewController {
     
-    private func bind(to viewModel: AllNewsViewModelProtocol) {
+    private func bind(to viewModel: TopHeadlinesViewModelProtocol) {
 //        viewModel.news.bind { news in
 //             self.news = news
 //             self.tableView.reloadData()

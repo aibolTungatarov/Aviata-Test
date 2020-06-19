@@ -2,13 +2,13 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ArticleCoreData" representedClassName="ArticleCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="author" optional="YES" attributeType="String"/>
-        <attribute name="content" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="String"/>
-        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="date" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="desc" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="sourceId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="sourceName" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
-        <attribute name="urlToImage" optional="YES" attributeType="String"/>
+        <attribute name="sourceName" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="title" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="urlToImage" optional="YES" attributeType="String" defaultValueString=""/>
     </entity>
     <elements>
         <element name="ArticleCoreData" positionX="-63" positionY="-18" width="128" height="163"/>

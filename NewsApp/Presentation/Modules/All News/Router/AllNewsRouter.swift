@@ -1,8 +1,8 @@
 //
-//  AllNewsRouter.swift
+//  MainNewsRouter.swift
 //  NewsApp
 //
-//  Created by Aibol Tungatarov on 6/17/20.
+//  Created by Aibol Tungatarov on 6/14/20.
 //  Copyright © 2020 Aibol Tungatarov. All rights reserved.
 //
 
@@ -16,7 +16,7 @@ class AllNewsRouter: RouterProtocol {
     }
     
     enum RouteType {
-        case subCategory(categoryString: String)
+        case detail(article: Article?)
     }
     
     // MARK: - Properties
@@ -46,7 +46,24 @@ class AllNewsRouter: RouterProtocol {
         }
     }
     
-    func enqueueRoute(with context: Any?, animated: Bool) { }
+    func enqueueRoute(with context: Any?, animated: Bool) {
+        guard let routeType = context as? RouteType else {
+            assertionFailure("The route type mismatch")
+            return
+        }
+        
+        guard let baseVC = baseViewController else {
+            assertionFailure("baseViewController is not set")
+            return
+        }
+        
+        switch routeType {
+        case .detail(let article):
+            let router = NewsDetailRouter()
+            let context = NewsDetailRouter.PresentationContext.default(article)
+            router.present(on: baseVC, animated: animated, context: context)
+        }
+    }
     
     func dismiss(with context: Any?, animated: Bool) { }
     

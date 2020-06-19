@@ -18,10 +18,10 @@ final class TopHeadlinesContainer {
 //        container.register(CardsUseCaseProtocol.self) { _ in return CardsUseCase(repository: CardRepository()) }
 //        container.register(CardsByTagUseCase.self) { _ in return CardsByTagUseCase(repository: CardRepository()) }
         container.register(GetTopHeadlinesUseCaseProtocol.self) { _ in return GetTopHeadlinesUseCase(repository: NewsRepository()) }
-        container.register(TopHeadlinesNewsRouter.self) { _ in return TopHeadlinesNewsRouter() }
+        container.register(TopHeadlinesRouter.self) { _ in return TopHeadlinesRouter() }
         container.register(TopHeadlinesViewModelProtocol.self) { resolver in
             return TopHeadlinesViewModel(
-                router: resolver.resolve(TopHeadlinesNewsRouter.self)!,
+                router: resolver.resolve(TopHeadlinesRouter.self)!,
                 useCase: resolver.resolve(GetTopHeadlinesUseCaseProtocol.self)!
             )
         }
