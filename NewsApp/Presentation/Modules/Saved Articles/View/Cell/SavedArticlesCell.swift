@@ -30,7 +30,7 @@ class SavedArticlesCell: UITableViewCell {
     }()
     
     var dateLabel: UILabel = {
-        let label = UILabel.hintMedium(15, lines: 1)
+        let label = UILabel.hintRegular(12, lines: 1)
         label.text = "27.02.2020"
         return label
     }()
@@ -49,7 +49,7 @@ class SavedArticlesCell: UITableViewCell {
     }()
     
     var authorLabel: UILabel = {
-        let label = UILabel.bodyRegular(14, lines: 0)
+        let label = UILabel.bodyMedium(14, lines: 0)
         label.text = "Unknown"
         return label
     }()
@@ -62,6 +62,12 @@ class SavedArticlesCell: UITableViewCell {
         
         configureViews()
     }
+    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//
+//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0))
+//    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -85,12 +91,12 @@ extension SavedArticlesCell {
         
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
-            make.top.equalTo(sourceLabel.snp.bottom).offset(10)
+            make.top.equalTo(sourceLabel.snp.bottom).offset(8)
             make.right.equalTo(thumbnailImageView.snp.left).offset(-10)
         }
         
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(authorLabel.snp.bottom).offset(3)
+            make.top.equalTo(authorLabel.snp.bottom).offset(5)
             make.left.equalTo(titleLabel)
             make.bottom.equalToSuperview()
         }

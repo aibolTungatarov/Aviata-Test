@@ -17,7 +17,7 @@ class SavedArticlesViewController: UIViewController {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     private lazy var tableView = SavedArticlesTableView(delegate: self)
-    private var viewModel: SavedArticlesViewModelProtocol
+    private(set) var viewModel: SavedArticlesViewModelProtocol
     private lazy var refreshControl = UIRefreshControl()
     var articles = [ArticleCoreData]()
     
@@ -74,6 +74,7 @@ extension SavedArticlesViewController {
     
     func setupNavBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontFamily.Roboto.medium.font(size: 20)!]
         title = "Saved Articles"
     }
 }
@@ -92,5 +93,17 @@ extension SavedArticlesViewController {
         refreshControl.endRefreshing()
         viewModel.reloadCoreData()
         tableView.reloadData()
+    }
+    
+    func makeArticle(from articleCoreData: ArticleCoreData) -> Article {
+        return Article(source: Source(id: Int(articleCoreData.sourceId ), name: articleCoreData.sourceName ?? ""),
+                       author: articleCoreData.author ?? "",
+                       title: articleCoreData.title ?? "",
+                       description: articleCoreData.description ,
+                       url: "",
+                       urlToImage: articleCoreData.urlToImage ?? "",
+                       publishedAt: articleCoreData.date ?? "",
+                       content: articleCoreData.content ?? ""
+        )
     }
 }

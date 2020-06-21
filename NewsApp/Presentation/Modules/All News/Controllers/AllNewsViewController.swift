@@ -75,6 +75,7 @@ extension AllNewsViewController {
     
     func setupNavBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontFamily.Roboto.medium.font(size: 20)!]
         title = "All News"
     }
 }

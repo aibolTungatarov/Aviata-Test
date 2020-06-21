@@ -14,6 +14,7 @@ import CoreData
 protocol SavedArticlesViewModelInput {
     func viewDidLoad()
     func reloadCoreData()
+    func goToDetail(with article: Article?)
 }
 
 protocol SavedArticlesViewModelOutput {
@@ -65,5 +66,10 @@ extension SavedArticlesViewModel {
     
     func reloadCoreData() {
         loadArticles()
+    }
+    
+    func goToDetail(with article: Article?) {
+        let context = SavedArticlesRouter.RouteType.detail(article: article)
+        router.enqueueRoute(with: context)
     }
 }

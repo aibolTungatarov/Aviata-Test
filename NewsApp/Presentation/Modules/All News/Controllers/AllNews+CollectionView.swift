@@ -39,7 +39,7 @@ extension AllNewsViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.row == (pageSize * page - 1)) {
+        if (indexPath.row == articles.count - 1) {
             page += 1
             viewModel.loadAllNews(at: page)
         }

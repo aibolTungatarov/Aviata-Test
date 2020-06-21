@@ -71,6 +71,9 @@ extension TopHeadlinesViewController {
     
     func setupNavBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontFamily.Roboto.medium.font(size: 20)!]
+//        let attributes = [NSAttributedString.Key.font: FontFamily.Roboto.regular.font(size: 10)!]
+//        UINavigationBar.appearance().titleTextAttributes = attributes
         title = "Top Headlines"
     }
 }

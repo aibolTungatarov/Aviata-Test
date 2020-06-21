@@ -53,14 +53,18 @@ final class AllNewsViewModel: AllNewsViewModelProtocol {
 extension AllNewsViewModel {
     
     func viewDidLoad() {
-        getEverything()
+        if (!isLoading.value) {
+            getEverything()
+        }
 //        repeatRequest()
     }
     
     @objc func getEverything() {
+        isLoading.accept(true)
         useCase.execute(query: "USA", page: self.page)
             .subscribe(onNext: { (news) in
                 self.news.onNext(news)
+                self.isLoading.accept(false)
             }, onError: { [weak self] (error) in
                 guard let self = self else { return }
                 self.handle(error)
@@ -79,6 +83,8 @@ extension AllNewsViewModel {
     
     func loadAllNews(at page: Int) {
         self.page = page
-        getEverything()
+        if (!isLoading.value) {
+            getEverything()
+        }
     }
 }

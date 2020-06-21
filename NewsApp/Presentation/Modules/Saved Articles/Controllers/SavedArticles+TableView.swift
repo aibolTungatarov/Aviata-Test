@@ -11,12 +11,16 @@ import UIKit
 extension SavedArticlesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return articles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: SavedArticlesCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.configure(with: articles[indexPath.row])
+        cell.configure(with: articles[indexPath.section])
         return cell
     }
     
@@ -25,7 +29,7 @@ extension SavedArticlesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat(30)
+        return CGFloat(20)
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -36,5 +40,7 @@ extension SavedArticlesViewController: UITableViewDataSource {
 extension SavedArticlesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let article = makeArticle(from: articles[indexPath.section])
+        viewModel.goToDetail(with: article)
     }
 }

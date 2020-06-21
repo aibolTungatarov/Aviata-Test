@@ -169,7 +169,7 @@ extension NewsDetailViewController {
         separatorView.snp.makeConstraints { (make) in
             make.height.equalTo(1)
             make.left.right.equalTo(titleLabel)
-            make.top.equalTo(dateLabel.snp.bottom).offset(15)
+            make.top.equalTo(authorLabel.snp.bottom).offset(15)
         }
         contentLabel.snp.makeConstraints { (make) in
             make.top.equalTo(separatorView.snp.bottom).offset(15)
