@@ -24,26 +24,33 @@ class SavedArticlesCell: UITableViewCell {
     var mainView = UIView()
     
     var titleLabel: UILabel = {
-        let label = UILabel()
+        let label = UILabel.bodyBold(22, lines: 3)
         label.text = "Beijing marketplace infections trigger 'wartime emergency mode' - ABC News"
-        label.font = .systemFont(ofSize: 20)
-        label.numberOfLines = 0
         return label
     }()
     
     var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        let label = UILabel.hintMedium(15, lines: 1)
         label.text = "27.02.2020"
-        label.numberOfLines = 1
         return label
     }()
     
     var sourceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.text = "Youtube"
+        let label = PaddingLabel(withInsets: 5, 5, 5, 5)
+        label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
+        label.textColor = .white
+        label.font = FontFamily.Roboto.medium.font(size: 12)
+        label.backgroundColor = .appOrange
+        label.layer.cornerRadius = 4
+        label.layer.masksToBounds = true
+        label.text = "Unknown"
+        return label
+    }()
+    
+    var authorLabel: UILabel = {
+        let label = UILabel.bodyRegular(14, lines: 0)
+        label.text = "Unknown"
         return label
     }()
     
@@ -67,7 +74,7 @@ extension SavedArticlesCell {
         selectionStyle = .none
         backgroundColor = .white
         
-        [sourceLabel, titleLabel, thumbnailImageView, dateLabel].forEach { contentView.addSubview($0) }
+        [sourceLabel, authorLabel, titleLabel, thumbnailImageView, dateLabel].forEach { addSubview($0) }
         configureConstraints()
     }
 
@@ -83,14 +90,25 @@ extension SavedArticlesCell {
         }
         
         dateLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.top.equalTo(authorLabel.snp.bottom).offset(3)
+            make.left.equalTo(titleLabel)
             make.bottom.equalToSuperview()
         }
         
         thumbnailImageView.snp.makeConstraints { (make) in
-            make.right.centerY.equalToSuperview()
-            make.width.equalTo(UIScreen.main.bounds.width / 3)
-            make.height.equalTo(thumbnailImageView.snp.width).dividedBy(1.3)
+            make.right.equalToSuperview()
+            make.top.equalTo(titleLabel)
+//            make.width.equalTo(UIScreen.main.bounds.width / 3)
+//            make.height.equalTo(thumbnailImageView.snp.width).dividedBy(1.3)
+//            make.width.height.equalTo(UIScreen.main.bounds.width).dividedBy(4)
+            make.width.equalTo(UIScreen.main.bounds.width / 4)
+            make.height.equalTo(thumbnailImageView.snp.width)
+        }
+        
+        authorLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.right.equalTo(thumbnailImageView.snp.left).offset(-50)
+            make.left.equalTo(titleLabel)
         }
     }
     
@@ -100,10 +118,11 @@ extension SavedArticlesCell {
     }
     
     func configure(with article: ArticleCoreData) {
-        self.titleLabel.text = article.title
-        self.sourceLabel.text = article.sourceName
-        self.dateLabel.text = article.date
+        titleLabel.text = article.title
+        sourceLabel.text = article.sourceName ?? "Unknown"
+        dateLabel.text = article.date
+        authorLabel.text = article.author ?? "Unknown"
         let url = URL(string: article.urlToImage ?? "")
-        self.thumbnailImageView.kf.setImage(with: url)
+        thumbnailImageView.kf.setImage(with: url)
     }
 }

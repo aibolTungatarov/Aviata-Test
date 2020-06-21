@@ -32,10 +32,11 @@ final class TopHeadlinesContainer {
         return container
     }
     
-    func controller() -> UIViewController {
+    func controller() -> UINavigationController {
         guard let controller = container().resolve(TopHeadlinesViewController.self) else {
-            return UIViewController()
+            return UINavigationController()
         }
-        return controller
+        controller.tabBarItem = UITabBarItem(title: "Top Headlines", image: Asset.homeImage.image, selectedImage: Asset.homeImage.image)
+        return UINavigationController(rootViewController: controller)
     }
 }

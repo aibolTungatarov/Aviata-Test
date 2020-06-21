@@ -32,10 +32,11 @@ final class AllNewsContainer {
         return container
     }
     
-    func controller() -> UIViewController {
+    func controller() -> UINavigationController {
         guard let controller = container().resolve(AllNewsViewController.self) else {
-            return UIViewController()
+            return UINavigationController()
         }
-        return controller
+        controller.tabBarItem = UITabBarItem(title: "All News", image: Asset.newsIcon.image, selectedImage: Asset.newsIcon.image)
+        return UINavigationController(rootViewController: controller)
     }
 }

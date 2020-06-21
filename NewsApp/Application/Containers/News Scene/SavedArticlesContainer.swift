@@ -31,10 +31,11 @@ final class SavedArticlesContainer {
         return container
     }
     
-    func controller() -> UIViewController {
+    func controller() -> UINavigationController {
         guard let controller = container().resolve(SavedArticlesViewController.self) else {
-            return UIViewController()
+            return UINavigationController()
         }
-        return controller
+        controller.tabBarItem = UITabBarItem(title: "Saved Articles", image: Asset.bookmarkImage.image, selectedImage: Asset.bookmarkImage.image)
+        return UINavigationController(rootViewController: controller)
     }
 }

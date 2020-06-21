@@ -23,7 +23,7 @@ class NewsDetailViewController: UIViewController {
             favoritesButton.setImage(self.isFavorite ? Asset.starFilledImage.image : Asset.starImage.image, for: .normal)
         }
     }
-    private let article: Article?
+    private var article: Article
     private let context = AppDelegate.viewContext
 //    private var articlesCoreData = [ArticleCoreData]()
     private var articleCoreData: ArticleCoreData?
@@ -90,14 +90,19 @@ class NewsDetailViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
     // MARK: - Inits
     init(viewModel: NewsDetailViewModelProtocol, article: Article?) {
         self.viewModel = viewModel
-        self.article = article
+        self.article = article ?? Article()
         super.init(nibName: nil, bundle: nil)
         
         self.viewModel.router.baseViewController = self
-        configure(with: article)
+        configure(with: self.article)
     }
 
     required init?(coder: NSCoder) {
@@ -175,15 +180,15 @@ extension NewsDetailViewController {
         }.disposed(by: disposeBag)
     }
     
-    func configure(with article: Article?) {
-        let url = URL(string: article?.urlToImage ?? "")
+    func configure(with article: Article) {
+        let url = URL(string: article.urlToImage ?? "")
         thumbnailImageView.kf.setImage(with: url)
-        sourceLabel.text = article?.source?.name ?? "Unknown"
-        dateLabel.text = convertISODateToString(with: article?.publishedAt ?? "")
-        titleLabel.text = article?.title
-        contentLabel.text = article?.content
-        authorLabel.text = "author: " + (article?.author ?? "Unknown")
-        checkIsFav()
+        sourceLabel.text = article.source?.name ?? "Unknown"
+        dateLabel.text = convertISODateToString(with: article.publishedAt ?? "")
+        titleLabel.text = article.title
+        contentLabel.text = article.content
+        authorLabel.text = "author: " + (article.author ?? "Unknown")
+        checkIsFav(with: article)
     }
     
     func convertISODateToString(with ISOString: String) -> String {
@@ -206,47 +211,49 @@ extension NewsDetailViewController {
     }
     
     func removeData() {
-        let article = makeArticleCoreData()
-        self.context.delete(article)
-//        articlesCoreData.removeAll { return $0 == article }
-        self.articleCoreData = nil
-        saveContext()
+//        let article = makeArticleCoreData()
+        if let articleCoreData = articleCoreData {
+            self.context.delete(articleCoreData)
+            self.articleCoreData = nil
+            saveContext()
+        }
     }
     
     func makeArticleCoreData() -> ArticleCoreData {
         let article = ArticleCoreData(context: self.context)
-        if let articleData = self.article {
-            article.author = articleData.author
-            article.content = articleData.content
-            article.date = articleData.publishedAt
-            article.desc = articleData.description
-            article.sourceId = Int16(articleData.source?.id ?? 0)
-            article.sourceName = articleData.source?.name
-            article.urlToImage = articleData.urlToImage
-            article.title = articleData.title
-        }
+        let articleData = self.article
+        article.author = articleData.author
+        article.content = articleData.content
+        article.date = articleData.publishedAt
+        article.desc = articleData.description
+        article.sourceId = Int16(articleData.source?.id ?? 0)
+        article.sourceName = articleData.source?.name ?? ""
+        article.urlToImage = articleData.urlToImage
+        article.title = articleData.title
         return article
     }
     
-    func checkIsFav() {
+    func checkIsFav(with article: Article) {
+//        let source = (article.source ?? Source())
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleCoreData")
-        let sourceNamePredicate = NSPredicate(format: "sourceName == %@", article?.source?.name ?? "")
-        let sourceIdPredicate = NSPredicate(format: "sourceId == %@", Int16(article?.source?.id ?? 0))
-        let authorPredicate = NSPredicate(format: "author == %@", article?.author ?? "")
-        let titlePredicate = NSPredicate(format: "title == %@", article?.title ?? "")
-        let descriptionPredicate = NSPredicate(format: "desc == %@", article?.description ?? "")
-        let urlToImagePredicate = NSPredicate(format: "urlToImage == %@", article?.urlToImage ?? "")
-        let datePredicate = NSPredicate(format: "date == %@", article?.publishedAt ?? "")
-        let contentPredicate = NSPredicate(format: "content == %@", article?.content ?? "")
-        let predicateCompound = NSCompoundPredicate.init(type: .and, subpredicates: [sourceNamePredicate,sourceIdPredicate, authorPredicate, titlePredicate, descriptionPredicate, urlToImagePredicate, datePredicate, contentPredicate])
-
+//        let sourceNamePredicate = NSPredicate(format: "sourceName == %@", source.name ?? "")
+//        let sourceIdPredicate = NSPredicate(format: "sourceId == %@", source.id ?? 0)
+        let authorPredicate = NSPredicate(format: "author == %@", article.author ?? "")
+        let titlePredicate = NSPredicate(format: "title == %@", article.title ?? "")
+        let descriptionPredicate = NSPredicate(format: "desc == %@", article.description ?? "")
+//        let urlToImagePredicate = NSPredicate(format: "urlToImage == %@", article.urlToImage ?? "")
+        let datePredicate = NSPredicate(format: "date == %@", article.publishedAt ?? "")
+//        let contentPredicate = NSPredicate(format: "content == %@", article.content ?? "")
+//        let predicateCompound = NSCompoundPredicate.init(type: .and, subpredicates: [authorPredicate, titlePredicate, descriptionPredicate, urlToImagePredicate, datePredicate, contentPredicate])
+        
+        let predicateCompound = NSCompoundPredicate.init(type: .and, subpredicates: [titlePredicate, descriptionPredicate, datePredicate, authorPredicate])
         request.predicate = predicateCompound
         request.fetchLimit = 1
 
         do {
 //            let app = UIApplication.shared.delegate as! AppDelegate
 //            let context = app.managedObjectContext
-            let count = try context.count(for: request)
+            let count = try self.context.count(for: request)
             if(count == 0) {
                 // no matching object
                 print("no present")
@@ -256,8 +263,7 @@ extension NewsDetailViewController {
                 // at least one matching object exists
                 print("one matching item found")
                 self.isFavorite = true
-                let article = makeArticleCoreData()
-                self.articleCoreData = article
+                fetchData()
             }
         }
         catch let error as NSError {
@@ -270,6 +276,27 @@ extension NewsDetailViewController {
             try context.save()
         } catch {
             
+        }
+    }
+    
+    func fetchData() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ArticleCoreData")
+        let authorPredicate = NSPredicate(format: "author == %@", article.author ?? "")
+        let titlePredicate = NSPredicate(format: "title == %@", article.title ?? "")
+        let descriptionPredicate = NSPredicate(format: "desc == %@", article.description ?? "")
+        let datePredicate = NSPredicate(format: "date == %@", article.publishedAt ?? "")
+        let predicateCompound = NSCompoundPredicate.init(type: .and, subpredicates: [titlePredicate, descriptionPredicate, datePredicate, authorPredicate])
+        
+        request.predicate = predicateCompound
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            if (result.count == 1) {
+                self.articleCoreData = result.first as? ArticleCoreData
+            }
+            
+        } catch {
+            print("Failed")
         }
     }
     

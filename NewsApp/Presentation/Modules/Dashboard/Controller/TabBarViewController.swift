@@ -47,7 +47,7 @@ class TabBarViewController: UITabBarController {
         tabBar.clipsToBounds = true
         delegate = self
         
-        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -10)
+        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5)
         
         setViewControllers()
         configureTabBar()
@@ -70,9 +70,9 @@ extension TabBarViewController {
 
 extension TabBarViewController {
     func setViewControllers() {
-        let topHeadlinesVC = UINavigationController(rootViewController: TopHeadlinesContainer.shared.controller())
-        let everythingVC = UINavigationController(rootViewController: AllNewsContainer.shared.controller())
-        let savedVC = UINavigationController(rootViewController: SavedArticlesContainer.shared.controller())
+        let topHeadlinesVC = TopHeadlinesContainer.shared.controller()
+        let everythingVC = AllNewsContainer.shared.controller()
+        let savedVC = SavedArticlesContainer.shared.controller()
         viewControllers = [topHeadlinesVC, everythingVC, savedVC]
     }
 }

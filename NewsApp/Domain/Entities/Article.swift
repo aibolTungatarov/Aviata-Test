@@ -39,6 +39,17 @@ public struct Article: Equatable {
         self.content = content
     }
     
+    public init() {
+        self.source = Source()
+        self.author = ""
+        self.title = ""
+        self.description = ""
+        self.url = ""
+        self.urlToImage = ""
+        self.publishedAt = ""
+        self.content = ""
+    }
+    
     public static func == (lhs: Article, rhs: Article) -> Bool {
         return (lhs.author == rhs.author) &&
             (lhs.title == rhs.title) &&

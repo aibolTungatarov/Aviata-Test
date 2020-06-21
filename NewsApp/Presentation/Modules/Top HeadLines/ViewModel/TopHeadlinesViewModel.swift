@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol TopHeadlinesViewModelInput {
     func viewDidLoad()
+    func goToDetail(with article: Article?)
 }
 
 protocol TopHeadlinesViewModelOutput {
@@ -20,6 +21,7 @@ protocol TopHeadlinesViewModelOutput {
     var isLoading: BehaviorRelay<Bool> { get }
     var error: BehaviorRelay<Error> { get }
     var useCase: GetTopHeadlinesUseCaseProtocol { get set }
+    var news: PublishSubject<News> { get set }
 }
 
 protocol TopHeadlinesViewModelProtocol: TopHeadlinesViewModelInput, TopHeadlinesViewModelOutput {}
@@ -30,6 +32,7 @@ final class TopHeadlinesViewModel: TopHeadlinesViewModelProtocol {
     let disposeBag = DisposeBag()
     var isLoading = BehaviorRelay<Bool>(value: false)
     var error = BehaviorRelay<Error>(value: NSError(domain: "", code: 0))
+    var news = PublishSubject<News>()
     var useCase: GetTopHeadlinesUseCaseProtocol
     
     @discardableResult
@@ -47,6 +50,26 @@ final class TopHeadlinesViewModel: TopHeadlinesViewModelProtocol {
 extension TopHeadlinesViewModel {
     
     func viewDidLoad() {
-        
+        getTopHeadlines()
+    }
+    
+    @objc func getTopHeadlines() {
+        useCase.execute(query: "Apple")
+            .subscribe(onNext: { (news) in
+                self.news.onNext(news)
+            }, onError: { [weak self] (error) in
+                guard let self = self else { return }
+                self.handle(error)
+            }
+        ).disposed(by: disposeBag)
+    }
+    
+    func repeatRequest() {
+        _ = Timer.scheduledTimer(timeInterval: 5, target: self,selector: Selector(("getTopHeadlines")), userInfo: nil, repeats: true)
+    }
+    
+    func goToDetail(with article: Article?) {
+        let context = TopHeadlinesRouter.RouteType.detail(article: article)
+        router.enqueueRoute(with: context)
     }
 }

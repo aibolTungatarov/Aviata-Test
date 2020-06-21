@@ -11,11 +11,12 @@ import UIKit
 extension TopHeadlinesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return news?.articles.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TopHeadlinesCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.configure(with: news?.articles[indexPath.row] ?? Article())
         return cell
     }
     
@@ -35,5 +36,6 @@ extension TopHeadlinesViewController: UITableViewDataSource {
 extension TopHeadlinesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.goToDetail(with: news?.articles[indexPath.row])
     }
 }

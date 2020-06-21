@@ -21,15 +21,15 @@ class NewsHeaderView: UICollectionReusableView {
     }()
     
     var titleLabel: UILabel = {
-        let label = UILabel.bodyRegular(20, lines: 0)
+        let label = UILabel.bodyMedium(23, lines: 0)
         label.text = "Beijing marketplace infections trigger 'wartime emergency mode' - ABC News"
-        label.font = .systemFont(ofSize: 20)
+        label.textAlignment = .center
         return label
     }()
     
     var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        let label = UILabel.hintRegular(16)
+        label.textAlignment = .center
         label.text = "27.02.2020"
         return label
     }()
@@ -70,7 +70,7 @@ extension NewsHeaderView {
         }
         titleLabel.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.top.equalTo(dateLabel.snp.bottom).offset(15)
+            make.top.equalTo(dateLabel.snp.bottom).offset(5)
             make.bottom.equalToSuperview()
         }
     }

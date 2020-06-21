@@ -16,7 +16,7 @@ class TopHeadlinesRouter: RouterProtocol {
     }
     
     enum RouteType {
-        case subCategory(categoryString: String)
+        case detail(article: Article?)
     }
     
     // MARK: - Properties
@@ -46,7 +46,24 @@ class TopHeadlinesRouter: RouterProtocol {
         }
     }
     
-    func enqueueRoute(with context: Any?, animated: Bool) { }
+    func enqueueRoute(with context: Any?, animated: Bool) {
+        guard let routeType = context as? RouteType else {
+            assertionFailure("The route type mismatch")
+            return
+        }
+        
+        guard let baseVC = baseViewController else {
+            assertionFailure("baseViewController is not set")
+            return
+        }
+        
+        switch routeType {
+        case .detail(let article):
+            let router = NewsDetailRouter()
+            let context = NewsDetailRouter.PresentationContext.default(article)
+            router.present(on: baseVC, animated: animated, context: context)
+        }
+    }
     
     func dismiss(with context: Any?, animated: Bool) { }
     

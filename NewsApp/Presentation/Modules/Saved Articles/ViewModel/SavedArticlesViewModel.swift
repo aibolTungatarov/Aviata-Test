@@ -13,6 +13,7 @@ import CoreData
 
 protocol SavedArticlesViewModelInput {
     func viewDidLoad()
+    func reloadCoreData()
 }
 
 protocol SavedArticlesViewModelOutput {
@@ -60,5 +61,9 @@ extension SavedArticlesViewModel {
             }
             articles.onNext(articleList)
         }
+    }
+    
+    func reloadCoreData() {
+        loadArticles()
     }
 }

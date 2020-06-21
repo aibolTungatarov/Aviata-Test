@@ -65,9 +65,10 @@ extension SavedArticlesViewController {
     
     func configureConstraints() {
         tableView.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(50)
-            make.right.equalToSuperview().offset(-50)
-            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -89,6 +90,7 @@ extension SavedArticlesViewController {
     
     @objc func refresh(_ sender: AnyObject) {
         refreshControl.endRefreshing()
+        viewModel.reloadCoreData()
         tableView.reloadData()
     }
 }

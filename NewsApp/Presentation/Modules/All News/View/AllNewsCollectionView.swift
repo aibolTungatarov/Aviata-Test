@@ -17,6 +17,7 @@ class AllNewsCollectionView: UICollectionView {
         layout.estimatedItemSize = CGSize(width: UIScreen.main.bounds.size.width, height: 10)
         self.delegate = delegate
         self.dataSource = delegate
+        contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
         backgroundColor = .white
         showsVerticalScrollIndicator = false
         alwaysBounceVertical = true

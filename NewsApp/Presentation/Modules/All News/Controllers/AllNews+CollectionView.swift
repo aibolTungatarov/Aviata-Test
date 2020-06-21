@@ -26,6 +26,7 @@ extension AllNewsViewController: UICollectionViewDataSource {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
                let headerView: NewsHeaderView = collectionView.dequeueReusableHeaderFooterView(kind, indexPath: indexPath)
+//               headerView.frame = headerView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0))
                return headerView
         default:  fatalError("Unexpected element kind")
         }
@@ -49,7 +50,7 @@ extension AllNewsViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,
                                minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 19
+        return 25
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

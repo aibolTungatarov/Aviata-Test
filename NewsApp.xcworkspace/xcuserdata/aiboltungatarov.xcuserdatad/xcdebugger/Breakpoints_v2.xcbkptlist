@@ -23,32 +23,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "23B9EAC6-51D2-435F-9C2B-BE5C39650E56"
+            uuid = "2DAB37D4-4377-43FB-BE03-0D87A590DFA4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NewsApp/Presentation/Modules/News Detail/Controllers/NewsDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
-            landmarkName = "changeCoreData(_:)"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "saveData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FEF4E2FE-5029-4DE7-AB23-D00FCBD863ED"
+            uuid = "BEB12E81-8F5C-4D66-ACC9-0345AA7CFA2D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NewsApp/Presentation/Modules/News Detail/Controllers/NewsDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "changeCoreData(_:)"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "removeData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

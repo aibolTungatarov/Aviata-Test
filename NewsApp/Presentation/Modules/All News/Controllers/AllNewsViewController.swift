@@ -65,7 +65,8 @@ extension AllNewsViewController {
         collectionView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
             make.right.equalToSuperview().offset(-50)
-            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     

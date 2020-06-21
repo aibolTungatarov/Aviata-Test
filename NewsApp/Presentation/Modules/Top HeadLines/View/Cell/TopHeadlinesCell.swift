@@ -28,7 +28,14 @@ class TopHeadlinesCell: UITableViewCell {
         return label
     }()
     
+    var overlay: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        return view
+    }()
+    
     // MARK: - Properties
+    private(set) var article: Article?
 
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -54,11 +61,23 @@ extension TopHeadlinesCell {
         selectionStyle = .none
         backgroundColor = .white
         
+        thumbnailImageView.addSubview(overlay)
         [thumbnailImageView, titleLabel].forEach { contentView.addSubview($0) }
         configureConstraints()
     }
+    
+    func configure(with article: Article) {
+        titleLabel.text = article.title
+        let url = URL(string: article.urlToImage ?? "")
+        thumbnailImageView.kf.setImage(with: url)
+        self.article = article
+    }
 
     func configureConstraints() {
+        overlay.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
         titleLabel.snp.makeConstraints { (make) in
 //            make.centerY.centerX.equalToSuperview()
             make.left.equalTo(thumbnailImageView).offset(25)
