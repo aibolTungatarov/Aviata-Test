@@ -13,6 +13,7 @@ import RxCocoa
 protocol TopHeadlinesViewModelInput {
     func viewDidLoad()
     func goToDetail(with article: Article?)
+    func loadNews(at page: Int)
 }
 
 protocol TopHeadlinesViewModelOutput {
@@ -34,6 +35,7 @@ final class TopHeadlinesViewModel: TopHeadlinesViewModelProtocol {
     var error = BehaviorRelay<Error>(value: NSError(domain: "", code: 0))
     var news = PublishSubject<News>()
     var useCase: GetTopHeadlinesUseCaseProtocol
+    var page = 1
     
     @discardableResult
     init(router: RouterProtocol, useCase: GetTopHeadlinesUseCaseProtocol) {
@@ -54,7 +56,7 @@ extension TopHeadlinesViewModel {
     }
     
     @objc func getTopHeadlines() {
-        useCase.execute(query: "Apple")
+        useCase.execute(query: "USA", page: page)
             .subscribe(onNext: { (news) in
                 self.news.onNext(news)
             }, onError: { [weak self] (error) in
@@ -71,5 +73,10 @@ extension TopHeadlinesViewModel {
     func goToDetail(with article: Article?) {
         let context = TopHeadlinesRouter.RouteType.detail(article: article)
         router.enqueueRoute(with: context)
+    }
+    
+    func loadNews(at page: Int) {
+        self.page = page
+        getTopHeadlines()
     }
 }

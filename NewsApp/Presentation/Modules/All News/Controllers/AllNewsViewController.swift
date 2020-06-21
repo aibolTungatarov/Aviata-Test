@@ -17,7 +17,10 @@ class AllNewsViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private lazy var collectionView = AllNewsCollectionView(delegate: self)
     private(set) var viewModel: AllNewsViewModelProtocol
-    private(set) var news: News?
+//    private(set) var news: News?
+    var articles = [Article]()
+    var page = 1
+    var pageSize = 20
     
     // MARK: - Views
     
@@ -63,8 +66,8 @@ extension AllNewsViewController {
     
     func configureConstraints() {
         collectionView.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(50)
-            make.right.equalToSuperview().offset(-50)
+            make.left.equalToSuperview().offset(40)
+            make.right.equalToSuperview().offset(-40)
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
@@ -111,7 +114,7 @@ extension AllNewsViewController {
 //            self.collectionView.performBatchUpdates({
 //
 //            })
-            self.news = newsList
+            self.articles += newsList.articles
             self.collectionView.reloadData()
         }.disposed(by: disposeBag)
     }

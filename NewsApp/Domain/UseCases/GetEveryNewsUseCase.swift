@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 public protocol GetEveryNewsUseCaseProtocol {
-    func execute(query: String) -> Observable<News>
+    func execute(query: String, page: Int) -> Observable<News>
 }
 
 public final class GetEveryNewsUseCase: GetEveryNewsUseCaseProtocol {
@@ -21,7 +21,7 @@ public final class GetEveryNewsUseCase: GetEveryNewsUseCaseProtocol {
         self.repository = repository
     }
 
-    public func execute(query: String) -> Observable<News> {
-        return repository.getEverything(query: query)
+    public func execute(query: String, page: Int) -> Observable<News> {
+        return repository.getEverything(query: query, page: page)
     }
 }

@@ -118,9 +118,10 @@ extension SavedArticlesCell {
     }
     
     func configure(with article: ArticleCoreData) {
+        let sourceName = article.sourceName ?? "Unknown"
         titleLabel.text = article.title
-        sourceLabel.text = article.sourceName ?? "Unknown"
-        dateLabel.text = article.date
+        sourceLabel.text = sourceName.isEmpty ? "Unknown" : sourceName
+        dateLabel.text = convertISODateToString(with: article.date ?? "")
         authorLabel.text = article.author ?? "Unknown"
         let url = URL(string: article.urlToImage ?? "")
         thumbnailImageView.kf.setImage(with: url)

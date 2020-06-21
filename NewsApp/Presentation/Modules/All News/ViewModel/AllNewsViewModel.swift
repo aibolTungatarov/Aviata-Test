@@ -13,6 +13,7 @@ import RxCocoa
 protocol AllNewsViewModelInput {
     func viewDidLoad()
     func goToDetail(with article: Article?)
+    func loadAllNews(at page: Int)
 }
 
 protocol AllNewsViewModelOutput {
@@ -35,6 +36,7 @@ final class AllNewsViewModel: AllNewsViewModelProtocol {
     var news = PublishSubject<News>()
     var error = BehaviorRelay<Error>(value: NSError(domain: "", code: 0))
     var useCase: GetEveryNewsUseCaseProtocol
+    var page = 1
     
     @discardableResult
     init(router: RouterProtocol, useCase: GetEveryNewsUseCaseProtocol) {
@@ -56,7 +58,7 @@ extension AllNewsViewModel {
     }
     
     @objc func getEverything() {
-        useCase.execute(query: "Apple")
+        useCase.execute(query: "USA", page: self.page)
             .subscribe(onNext: { (news) in
                 self.news.onNext(news)
             }, onError: { [weak self] (error) in
@@ -73,5 +75,10 @@ extension AllNewsViewModel {
     func goToDetail(with article: Article?) {
         let context = AllNewsRouter.RouteType.detail(article: article)
         router.enqueueRoute(with: context)
+    }
+    
+    func loadAllNews(at page: Int) {
+        self.page = page
+        getEverything()
     }
 }

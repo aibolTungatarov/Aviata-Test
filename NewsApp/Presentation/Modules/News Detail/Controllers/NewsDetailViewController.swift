@@ -38,13 +38,19 @@ class NewsDetailViewController: UIViewController {
     
     private var backButton: UIButton = {
         let button = UIButton()
-        button.setImage(Asset.backImage.image, for: .normal)
+//        let image = Asset.backImage.image.withRenderingMode(.alwaysTemplate).withTintColor(.white)
+        let image = Asset.backImage.image.maskWithColor(color: .white)
+//        let image = Asset.backImage.image
+        button.setImage(image, for: .normal)
         return button
     }()
     
     private var favoritesButton: UIButton = {
         let button = UIButton()
-        button.setImage(Asset.starImage.image, for: .normal)
+//        let image = Asset.starImage.image.withRenderingMode(.alwaysTemplate).withTintColor(.white)
+        let image = Asset.starImage.image.maskWithColor(color: .white)
+//        let image = Asset.starImage.image
+        button.setImage(image, for: .normal)
         return button
     }()
     
@@ -67,6 +73,12 @@ class NewsDetailViewController: UIViewController {
     private var titleLabel: UILabel = {
         let label = UILabel.bodyBold(20, lines: 0)
         return label
+    }()
+    
+    private var overlay: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.1)
+        return view
     }()
     
     private var separatorView = UIView()
@@ -117,11 +129,20 @@ extension NewsDetailViewController {
     func configureViews() {
         view.backgroundColor = .white
         separatorView.backgroundColor = .hint
-        [thumbnailImageView, titleLabel, sourceLabel, dateLabel, contentLabel, authorLabel, separatorView, backButton, favoritesButton].forEach { view.addSubview($0) }
+        authorLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        [overlay].forEach { thumbnailImageView.addSubview($0) }
+        [thumbnailImageView, titleLabel, sourceLabel, dateLabel, contentLabel, authorLabel, separatorView,  backButton, favoritesButton].forEach { view.addSubview($0) }
         configureConstraints()
     }
     
     func configureConstraints() {
+        overlay.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview()
+//            make.left.right.equalToSuperview()
+//            make.height.equalTo(70)
+            make.edges.equalToSuperview()
+        }
         thumbnailImageView.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width / 1.5)
@@ -138,10 +159,12 @@ extension NewsDetailViewController {
         authorLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.left.equalTo(titleLabel)
+            make.right.lessThanOrEqualTo(dateLabel.snp.left)
         }
         dateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.right.equalTo(titleLabel)
+//            make.left.equalTo(authorLabel.snp.right)
         }
         separatorView.snp.makeConstraints { (make) in
             make.height.equalTo(1)
@@ -154,12 +177,12 @@ extension NewsDetailViewController {
 //            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
         backButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.top.equalToSuperview().offset(30)
             make.left.equalToSuperview().offset(20)
             make.width.height.equalTo(30)
         }
         favoritesButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.top.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-20)
             make.width.height.equalTo(30)
         }

@@ -30,8 +30,8 @@
             filePath = "NewsApp/Presentation/Modules/News Detail/Controllers/NewsDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "saveData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "NewsApp/Presentation/Modules/News Detail/Controllers/NewsDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "removeData()"
             landmarkType = "7">
          </BreakpointContent>

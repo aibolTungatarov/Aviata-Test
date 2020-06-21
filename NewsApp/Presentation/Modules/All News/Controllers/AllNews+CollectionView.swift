@@ -11,12 +11,12 @@ import UIKit
 extension AllNewsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return news?.articles.count ?? 0
+        return articles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: NewsCell = collectionView.dequeueReusableCell(for: indexPath)
-        let article = news?.articles[indexPath.row]
+        let article = articles[indexPath.row]
         cell.configure(with: article)
         return cell
     }
@@ -35,7 +35,14 @@ extension AllNewsViewController: UICollectionViewDataSource {
 
 extension AllNewsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.goToDetail(with: news?.articles[indexPath.row])
+        viewModel.goToDetail(with: articles[indexPath.row])
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (indexPath.row == (pageSize * page - 1)) {
+            page += 1
+            viewModel.loadAllNews(at: page)
+        }
     }
 }
 

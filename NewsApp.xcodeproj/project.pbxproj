@@ -63,6 +63,7 @@
 		FB576B2F2496460700995A11 /* GetEveryNewsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB576B2E2496460700995A11 /* GetEveryNewsUseCase.swift */; };
 		FB576B312496465B00995A11 /* GetTopHeadlinesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB576B302496465B00995A11 /* GetTopHeadlinesUseCase.swift */; };
 		FBC9476E249E4D51003AE69A /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC9476D249E4D51003AE69A /* PaddingLabel.swift */; };
+		FBC94770249F3B02003AE69A /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC9476F249F3B02003AE69A /* UIImageExtensions.swift */; };
 		FBEC0DEC24977DF100854FAF /* NewsDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC0DEB24977DF100854FAF /* NewsDetailRouter.swift */; };
 		FBEC0DEE24977E1300854FAF /* NewsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC0DED24977E1300854FAF /* NewsDetailViewModel.swift */; };
 		FBEC0DF024977E5A00854FAF /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC0DEF24977E5A00854FAF /* NewsDetailViewController.swift */; };
@@ -148,6 +149,7 @@
 		FB576B2E2496460700995A11 /* GetEveryNewsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEveryNewsUseCase.swift; sourceTree = "<group>"; };
 		FB576B302496465B00995A11 /* GetTopHeadlinesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTopHeadlinesUseCase.swift; sourceTree = "<group>"; };
 		FBC9476D249E4D51003AE69A /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		FBC9476F249F3B02003AE69A /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		FBEC0DEB24977DF100854FAF /* NewsDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailRouter.swift; sourceTree = "<group>"; };
 		FBEC0DED24977E1300854FAF /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
 		FBEC0DEF24977E5A00854FAF /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				FB576B022495EDD400995A11 /* UICollectionViewExtensions.swift */,
 				FBEC0DF32497921E00854FAF /* UILabelExtensions.swift */,
 				FBEC0DFA24987F0600854FAF /* UIColorExtensions.swift */,
+				FBC9476F249F3B02003AE69A /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				FB576B1524963D8600995A11 /* Source.swift in Sources */,
 				FB576B1924963EC200995A11 /* NewsMapper.swift in Sources */,
 				FB4CBE6D2499EE86008A7161 /* TopHeadlinesTableView.swift in Sources */,
+				FBC94770249F3B02003AE69A /* UIImageExtensions.swift in Sources */,
 				FB576B1E249640AC00995A11 /* Mappable.swift in Sources */,
 				FB4CBE692499ECBB008A7161 /* TopHeadlinesViewController.swift in Sources */,
 				FB576B28249643B400995A11 /* NetworkManager.swift in Sources */,

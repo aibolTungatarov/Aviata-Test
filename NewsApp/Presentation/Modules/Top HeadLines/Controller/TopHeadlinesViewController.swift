@@ -17,7 +17,10 @@ class TopHeadlinesViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private lazy var tableView = TopHeadlinesTableView(delegate: self)
     private(set) var viewModel: TopHeadlinesViewModelProtocol
-    private(set) var news: News?
+//    private(set) var news: News?
+    private(set) var articles = [Article]()
+    var page = 1
+    var pageSize = 20
     
     // MARK: - Views
     
@@ -77,7 +80,7 @@ extension TopHeadlinesViewController {
     
     private func bind(to viewModel: TopHeadlinesViewModelProtocol) {
         viewModel.news.bind { news in
-             self.news = news
+            self.articles += news.articles
              self.tableView.reloadData()
          }.disposed(by: disposeBag)
     }

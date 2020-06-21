@@ -17,9 +17,9 @@ public class NewsRepository: NewsRepositoryProtocol {
     public init() { }
     
     // MARK: - Methods
-    public func getTopHeadlines(query: String) -> Observable<News> {
+    public func getTopHeadlines(query: String, page: Int) -> Observable<News> {
         var headers: HTTPHeaders = [String: String]()
-        let params = ["q": query]
+        let params = ["q": query, "page": page, "pageSize": 20] as [String : Any]
         let apiKey = Constants.apiKey
         headers["Authorization"] = "Bearer \(apiKey)"
         return NetworkManager.shared.request(URL.topHeadlines, method: .get, headers: headers, parameters: params)
@@ -47,11 +47,11 @@ public class NewsRepository: NewsRepositoryProtocol {
             .map { return NewsMapper().from($0) }
     }
     
-    public func getEverything(query: String) -> Observable<News> {
+    public func getEverything(query: String, page: Int) -> Observable<News> {
         var headers: HTTPHeaders = [String: String]()
         let apiKey = Constants.apiKey
         headers["Authorization"] = "Bearer \(apiKey)"
-        let params = ["q": query]
+        let params = ["q": query, "page": page] as [String: Any]
         return NetworkManager.shared.request(URL.everything, method: .get, headers: headers, parameters: params)
             .debug()
             .flatMap { response -> Observable<JSON> in

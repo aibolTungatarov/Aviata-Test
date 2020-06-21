@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 public protocol GetTopHeadlinesUseCaseProtocol {
-    func execute(query: String) -> Observable<News>
+    func execute(query: String, page: Int) -> Observable<News>
 }
 
 public final class GetTopHeadlinesUseCase: GetTopHeadlinesUseCaseProtocol {
@@ -21,7 +21,7 @@ public final class GetTopHeadlinesUseCase: GetTopHeadlinesUseCaseProtocol {
         self.repository = repository
     }
 
-    public func execute(query: String) -> Observable<News> {
-        return repository.getTopHeadlines(query: query)
+    public func execute(query: String, page: Int) -> Observable<News> {
+        return repository.getTopHeadlines(query: query, page: page)
     }
 }
