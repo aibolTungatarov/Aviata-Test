@@ -96,11 +96,11 @@ extension SavedArticlesViewController {
     }
     
     func makeArticle(from articleCoreData: ArticleCoreData) -> Article {
-        return Article(source: Source(id: Int(articleCoreData.sourceId ), name: articleCoreData.sourceName ?? ""),
+        return Article(source: Source(id: Int(articleCoreData.sourceId), name: articleCoreData.sourceName ?? ""),
                        author: articleCoreData.author ?? "",
                        title: articleCoreData.title ?? "",
-                       description: articleCoreData.description ,
-                       url: "",
+                       description: articleCoreData.desc ?? "",
+                       url: articleCoreData.url ?? "",
                        urlToImage: articleCoreData.urlToImage ?? "",
                        publishedAt: articleCoreData.date ?? "",
                        content: articleCoreData.content ?? ""

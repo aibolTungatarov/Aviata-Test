@@ -35,7 +35,9 @@ final class SavedArticlesContainer {
         guard let controller = container().resolve(SavedArticlesViewController.self) else {
             return UINavigationController()
         }
-        controller.tabBarItem = UITabBarItem(title: "Saved Articles", image: Asset.bookmarkImage.image, selectedImage: Asset.bookmarkImage.image)
+        let tabBarItem = UITabBarItem(title: "Saved Articles", image: Asset.bookmarkImage.image, selectedImage: Asset.bookmarkImage.image)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -8, right: 0)
+        controller.tabBarItem = tabBarItem
         return UINavigationController(rootViewController: controller)
     }
 }

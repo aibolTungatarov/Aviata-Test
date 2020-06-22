@@ -36,7 +36,9 @@ final class TopHeadlinesContainer {
         guard let controller = container().resolve(TopHeadlinesViewController.self) else {
             return UINavigationController()
         }
-        controller.tabBarItem = UITabBarItem(title: "Top Headlines", image: Asset.homeImage.image, selectedImage: Asset.homeImage.image)
+        let tabBarItem = UITabBarItem(title: "Top Headlines", image: Asset.homeImage.image, selectedImage: Asset.homeImage.image)
+//        tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -8, right: 0)
+        controller.tabBarItem = tabBarItem
         return UINavigationController(rootViewController: controller)
     }
 }

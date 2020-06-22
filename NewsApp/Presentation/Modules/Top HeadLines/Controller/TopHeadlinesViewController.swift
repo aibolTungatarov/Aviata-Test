@@ -83,8 +83,12 @@ extension TopHeadlinesViewController {
     
     private func bind(to viewModel: TopHeadlinesViewModelProtocol) {
         viewModel.news.bind { news in
-            self.articles += news.articles
-             self.tableView.reloadData()
+            if (viewModel.isNewPage) {
+                self.articles += news.articles
+            } else {
+//                self.articles += news.articles
+            }
+            self.tableView.reloadData()
          }.disposed(by: disposeBag)
     }
     

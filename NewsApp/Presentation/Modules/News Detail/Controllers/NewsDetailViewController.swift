@@ -39,8 +39,8 @@ class NewsDetailViewController: UIViewController {
     private var backButton: UIButton = {
         let button = UIButton()
 //        let image = Asset.backImage.image.withRenderingMode(.alwaysTemplate).withTintColor(.white)
-        let image = Asset.backImage.image.maskWithColor(color: .white)
-//        let image = Asset.backImage.image
+//        let image = Asset.backImage.image.maskWithColor(color: .white)
+        let image = Asset.backImage.image
         button.setImage(image, for: .normal)
         return button
     }()
@@ -48,8 +48,8 @@ class NewsDetailViewController: UIViewController {
     private var favoritesButton: UIButton = {
         let button = UIButton()
 //        let image = Asset.starImage.image.withRenderingMode(.alwaysTemplate).withTintColor(.white)
-        let image = Asset.starImage.image.maskWithColor(color: .white)
-//        let image = Asset.starImage.image
+//        let image = Asset.starImage.image.maskWithColor(color: .white)
+        let image = Asset.starImage.image
         button.setImage(image, for: .normal)
         return button
     }()
@@ -77,7 +77,7 @@ class NewsDetailViewController: UIViewController {
     
     private var overlay: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.1)
+        view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.1)
         return view
     }()
     
@@ -252,6 +252,7 @@ extension NewsDetailViewController {
         article.sourceId = Int16(articleData.source?.id ?? 0)
         article.sourceName = articleData.source?.name ?? ""
         article.urlToImage = articleData.urlToImage
+        article.url = articleData.url
         article.title = articleData.title
         return article
     }

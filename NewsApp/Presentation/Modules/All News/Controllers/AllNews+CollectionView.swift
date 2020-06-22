@@ -26,7 +26,10 @@ extension AllNewsViewController: UICollectionViewDataSource {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
                let headerView: NewsHeaderView = collectionView.dequeueReusableHeaderFooterView(kind, indexPath: indexPath)
-//               headerView.frame = headerView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0))
+               headerView.configure(with: articles.first ?? Article())
+               let tapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(tapDetected))
+               headerView.addGestureRecognizer(tapGestureRecognizer)
+               headerView.frame = headerView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0))
                return headerView
         default:  fatalError("Unexpected element kind")
         }
@@ -43,6 +46,10 @@ extension AllNewsViewController: UICollectionViewDelegate {
             page += 1
             viewModel.loadAllNews(at: page)
         }
+    }
+    
+    @objc func tapDetected() {
+        viewModel.goToDetail(with: articles.first ?? Article())
     }
 }
 

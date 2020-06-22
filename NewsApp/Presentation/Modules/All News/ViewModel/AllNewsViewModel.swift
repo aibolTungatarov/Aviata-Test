@@ -56,7 +56,6 @@ extension AllNewsViewModel {
         if (!isLoading.value) {
             getEverything()
         }
-//        repeatRequest()
     }
     
     @objc func getEverything() {

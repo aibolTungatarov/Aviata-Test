@@ -44,6 +44,18 @@ class NewsHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(with article: Article) {
+        let url = URL(string: article.urlToImage ?? "")
+        thumbnailImageView.kf.setImage(with: url)
+        titleLabel.text = article.title
+        dateLabel.text = convertISODateToString(with: article.publishedAt ?? "")
+    }
+    
+    func convertISODateToString(with ISOString: String) -> String {
+        let date = ISOString.toISODate()?.toFormat("dd.MM.yyyy")
+        return date ?? ""
+    }
 }
 
 // MARK: - Actions

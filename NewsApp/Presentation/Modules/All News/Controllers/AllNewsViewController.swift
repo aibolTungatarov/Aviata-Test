@@ -17,6 +17,7 @@ class AllNewsViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private lazy var collectionView = AllNewsCollectionView(delegate: self)
     private(set) var viewModel: AllNewsViewModelProtocol
+    private lazy var refreshControl = UIRefreshControl()
 //    private(set) var news: News?
     var articles = [Article]()
     var page = 1
@@ -57,9 +58,12 @@ extension AllNewsViewController {
     
     func configureViews() {
         view.backgroundColor = .white
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         if let collectionViewLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             collectionViewLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         }
+        collectionView.addSubview(refreshControl)
         [collectionView].forEach { view.addSubview($0) }
         configureConstraints()
     }
@@ -85,39 +89,14 @@ extension AllNewsViewController {
     
     private func bind(to viewModel: AllNewsViewModelProtocol) {
         viewModel.news.bind { newsList in
-//            var insertList = [Int]()
-//            var deleteList = [Int]()
-//            let articles = self.news?.articles ?? []
-//            for i in 0..<articles.count{
-//                let article = articles[i]
-//                if (!(newsList.articles.contains(where: { return $0 == article }) )) {
-//                    deleteList.append(i)
-//                }
-//            }
-//
-//            for i in 0..<deleteList.count {
-//                self.news?.articles.remove(at: i)
-//            }
-//
-//            let newArticles = newsList.articles
-//            let oldArticles = self.news?.articles ?? []
-//            for i in 0..<newArticles.count{
-//                let article = newArticles[i]
-//                if (!(oldArticles.contains(where: { return $0 == article }) )) {
-//                    insertList.append(i)
-//                }
-//            }
-//
-//            for i in 0..<insertList.count {
-//                self.news?.articles.append(newArticles[i])
-//            }
-//
-//            self.collectionView.performBatchUpdates({
-//
-//            })
             self.articles += newsList.articles
             self.collectionView.reloadData()
         }.disposed(by: disposeBag)
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        refreshControl.endRefreshing()
+        collectionView.reloadData()
     }
     
 }

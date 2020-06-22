@@ -36,7 +36,9 @@ final class AllNewsContainer {
         guard let controller = container().resolve(AllNewsViewController.self) else {
             return UINavigationController()
         }
-        controller.tabBarItem = UITabBarItem(title: "All News", image: Asset.newsIcon.image, selectedImage: Asset.newsIcon.image)
+        let tabBarItem = UITabBarItem(title: "All News", image: Asset.newsIcon.image, selectedImage: Asset.newsIcon.image)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -8, right: 0)
+        controller.tabBarItem = tabBarItem
         return UINavigationController(rootViewController: controller)
     }
 }
