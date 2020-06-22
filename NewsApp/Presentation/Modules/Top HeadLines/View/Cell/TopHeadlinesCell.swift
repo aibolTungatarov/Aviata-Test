@@ -30,7 +30,7 @@ class TopHeadlinesCell: UITableViewCell {
     
     var overlay: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         return view
     }()
     

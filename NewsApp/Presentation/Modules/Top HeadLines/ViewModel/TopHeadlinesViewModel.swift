@@ -23,7 +23,6 @@ protocol TopHeadlinesViewModelOutput {
     var error: BehaviorRelay<Error> { get }
     var useCase: GetTopHeadlinesUseCaseProtocol { get set }
     var news: PublishSubject<News> { get set }
-    var isNewPage: Bool { get set }
 }
 
 protocol TopHeadlinesViewModelProtocol: TopHeadlinesViewModelInput, TopHeadlinesViewModelOutput {}
@@ -36,7 +35,6 @@ final class TopHeadlinesViewModel: TopHeadlinesViewModelProtocol {
     var error = BehaviorRelay<Error>(value: NSError(domain: "", code: 0))
     var news = PublishSubject<News>()
     var useCase: GetTopHeadlinesUseCaseProtocol
-    var isNewPage = false
     var page = 1
     
     @discardableResult
@@ -55,26 +53,23 @@ extension TopHeadlinesViewModel {
     
     func viewDidLoad() {
         getTopHeadlines()
-        repeatRequest()
+//        repeatRequest()
     }
     
     @objc func getTopHeadlines() {
-        if (!isLoading.value) {
-            isLoading.accept(true)
-            useCase.execute(query: "USA", page: page)
-                .subscribe(onNext: { (news) in
-                    self.news.onNext(news)
-                    self.isLoading.accept(false)
-                }, onError: { [weak self] (error) in
-                    guard let self = self else { return }
-                    self.handle(error)
-                }
-            ).disposed(by: disposeBag)
-        }
+        isLoading.accept(true)
+        useCase.execute(query: "USA", page: page)
+            .subscribe(onNext: { (news) in
+                self.news.onNext(news)
+                self.isLoading.accept(false)
+            }, onError: { [weak self] (error) in
+                guard let self = self else { return }
+                self.handle(error)
+            }
+        ).disposed(by: disposeBag)
     }
     
-    func repeatGetTopHeadlines() {
-        isNewPage = false
+    @objc func repeatGetTopHeadlines() {
         getTopHeadlines()
     }
     
@@ -89,7 +84,6 @@ extension TopHeadlinesViewModel {
     
     func loadNews(at page: Int) {
         self.page = page
-        isNewPage = true
         getTopHeadlines()
     }
 }
